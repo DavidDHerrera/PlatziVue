@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="https://unpkg.com/vue@next"></script>
+    <div id="app"></div>
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    text: "Accede a tu Cuenta",
+                    open: false,
+                    username: '',
+                    posts: [{
+                        title: "titulo 1",
+                        description: "Lorem ipsum"
+                    },
+                    {
+                        title: "titulo 2",
+                        description: "Lorem ipsum"
+                    },
+                    {
+                        title: "titulo 3",
+                        description: "Lorem ipsum"
+                    },
+                    {
+                        title: "titulo 4",
+                        description: "Lorem ipsum"
+                    }
+                    ]
+                };
+            },
+            // methods: {
+            //     input(e) {
+            //         console.log(e.target.value);
+            //         this.text = e.target.value
+            //     }
+            // },
+            computed: {
+                label() {
+                    return this.open ? "Salir" : "Acceder"
+                },
+                stylesa() {
+                    return this.open ? ['open'] : ['closed']
+                }
+
+                //     fullName() {
+                //         return this.firstName + " " + this.lastName
+                //     },
+                //     today() {
+                //         return this.now.toLocaleDateString()
+                //     }
+            },
+            watch: {
+                open(value) {
+                    if (value) {
+                        this.text = "Cerrar Sesion";
+                        // this.styles.backgroundColor = "#b5e7a0"
+                    } else {
+                        this.text = "Accede a tu Cuenta"
+                        this.username = ''
+                        // this.styles.backgroundColor = "#eca1a6"
+                    }
+                }
+            },
+            template: `
+            <div class="container" :class="stylesa">
+                <h2>{{text}}</h2>
+                <div v-if="open">
+                    <p> Hola, {{username}}</p>
+                    <div class="list">
+                        <item 
+                            v-for="(item, i) in posts"
+                            :key="i"
+                            :post="item"
+                        />
+                    </div>
+                </div>
+                <div v-else>
+                    <div>Username</div>
+                    <input type="text" v-model="username"/>
+                </div>
+                <button @click= "open = !open" >
+                    <div v-if="!open" >Acceder</div>
+                    <div v-else>Salir</div>
+                </button>
+            </div>
+            `
+        })
+        app.component("item", {
+            props: ["post"],
+            template: `
+            <div class="item">
+                <div class="title">{{post.title}}</div>
+                <p> {{post.description}}</p>
+            </div>
+            `
+        })
+        const vm = app.mount("#app");
+        console.log(vm)
+    </script>
+    <style>
+        html,
+        body {
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        #app,
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+        }
+
+        button {
+            margin-top: 24px;
+            border: none;
+            background-color: white;
+            padding: 8px 24px;
+            border-radius: 12px;
+        }
+
+        .closed {
+            background-color: #eca1a6;
+        }
+
+        .open {
+            background-color: #b5e7a0;
+        }
+
+        .list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .item {
+            border: 1px solid black;
+        }
+
+        .title {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+    </style>
+</body>
+
+</html>
+
+<!-- <script>
+    const vm = Vue.createApp({
+        data() {
+            return {
+                attr: "src",
+                img: "https://img2.freepng.es/20180403/pce/kisspng-warlords-of-draenor-world-of-warcraft-logo-symbol-wow-5ac38523bf5be1.7443374015227630437838.jpg"
+            };
+        },
+        template: `<img v-bind:[attr]="img" width="100">`
+    }).mount("#app");
+    console.log(vm)
+</script> -->
+
+<!-- <script>
+    const vm = Vue.createApp({
+        data() {
+            return {
+                counter: 0
+            };
+        },
+        methods: {
+            submit() {
+                this.counter++;
+            }
+        },
+        template: `<form v-on:submit.prevent="submit"><button > {{counter}} </button> </form>`
+    }).mount("#app");
+    console.log(vm)
+</script> -->

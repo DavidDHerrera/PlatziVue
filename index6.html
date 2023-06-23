@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="https://unpkg.com/vue@next"></script>
+    <div id="app"></div>
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    text: "Hola Vue"
+                }
+            },
+            template:
+                `
+                <v-button ref="elemento" :label="text"></v-button>
+            `
+        })
+        app.component("v-button", {
+            props: ["label"],
+            template:
+                `
+                <button>{{label}}</button>
+            `
+        })
+        const vm = app.mount("#app")
+        console.log(vm.$props);
+    </script>
+</body>
+
+</html>
